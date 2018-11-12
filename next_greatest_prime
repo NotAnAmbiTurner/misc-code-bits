@@ -1,0 +1,61 @@
+def find_next_greatest_prime(current_prime = 199, primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]):
+  """
+  input: prime number
+  input: list of continual prime numbers up to the input prime
+  output: next greatest prime number
+
+  >>> find_next_greatest_prime(5, [2, 3, 5])
+  7
+
+  >>> find_next_greatest_prime(211, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211])
+  223
+
+  >>> find_next_greatest_prime(223, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223])
+  227
+
+  uses 199, and primes up to 199, as defaults
+  >>> find_next_greatest_prime()
+  211
+
+  uses primes to 199 as defaults, but works with primes less than that
+  >>> find_next_greatest_prime(5)
+  7
+
+  tries to throw an error if a non-prime is given (based on the list of primes)
+  >>> find_next_greatest_prime(1)
+  Exception()
+  """
+  import bisect
+  import math
+  import doctest
+
+  curr_num = current_prime
+  
+  primes = sorted(primes)
+  if current_prime < primes[-1] and current_prime not in primes:
+      raise Exception("Error: passed in {} as first argument, which is less than largest prime, is not in the list of primes, and therefore probably not a prime number".format(current_prime))
+  elif current_prime == 2:
+    return 3
+    
+  i = 0
+  while_guard = 2500
+  while i < while_guard:
+    i = i + 1
+    curr_num = curr_num + 2
+    if str(curr_num)[-1] == "5" or sum(list(map(lambda x: int(x), list(str(curr_num))))) == 3:
+      pass
+    else:
+      # create a sub-list of prime numbers to loop through - this sub-list only needs to contain values under the square root of the number being evaluated for its "primeness"; using bisect is the fastest way of doing this but works only on sorted lists; the sub-list should contain all primes up to 1 + (sqrt(curr_num) // 1)
+      for x in primes[:bisect.bisect_left(primes, (math.sqrt(curr_num)  // 1) + 1)]:
+        if (curr_num % x) == 0:
+          break
+      else:
+        return curr_num
+  else:
+    raise Exception("while_guard encountered - reached {} loops with no prime and exited loop".format(while_guard))
+
+# def testing():
+# 	doctest.run_docstring_examples(find_next_greatest_prime,globals(),name="find_next_greatest_prime",optionflags=doctest.IGNORE_EXCEPTION_DETAIL)
+
+# import doctest
+# testing()

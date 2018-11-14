@@ -2,4 +2,4 @@
 
 ## HackerRank
 
-### Next prime
+### Primes

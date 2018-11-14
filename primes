@@ -1,3 +1,21 @@
+def isPrime(n, primes):
+    global_primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]
+
+    if len(primes) < 46:
+        primes = global_primes
+    
+    if n in primes:
+        return True
+    elif str(n)[-1] == "5" or sum(list(map(lambda x: int(x), list(str(n))))) == 3:
+        return False
+    else:
+        for x in primes[:bisect.bisect_left(primes, (math.sqrt(n) // 1) + 1)]:
+            if (n % x) == 0:
+                return False
+        else:
+            return True
+            
+            
 def find_next_greatest_prime(current_prime = 199, primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]):
   """
   input: prime number

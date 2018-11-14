@@ -60,6 +60,7 @@ def find_next_greatest_prime(current_prime = 199, primes = [2, 3, 5, 7, 11, 13, 
   while i < while_guard:
     i = i + 1
     curr_num = curr_num + 2
+    # same as isPrime (need to factor out)
     if str(curr_num)[-1] == "5" or sum(list(map(lambda x: int(x), list(str(curr_num))))) == 3:
       pass
     else:

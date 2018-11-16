@@ -10,12 +10,7 @@ def list_primes_less_than_or_equal_to(n):
     # run sieve 
     pot_primes_to_test = primes + list(range(primes[-1] + 2, n + 1, 2))
 
-    print("1")
-    print(pot_primes_to_test)
-
-    print("2")
     pot_primes_to_test = primes + [x for x in range(primes[-1] + 2, n + 1, 2) if str(x)[-1] != "0" and str(x)[-1] != "5" and not sum([int(y) for y in list(str(x))]) % 3 == 0]
-    print(pot_primes_to_test)
 
     prime_i = 3
 

@@ -1,39 +1,35 @@
 def list_primes_less_than_or_equal_to(n):
-  # implementation of tweaked version of Sieve of Eratosthenes
+  # implementation of Sieve of Eratosthenes
   import bisect
   primes = [2, 3, 5, 7]
   loc = bisect.bisect_left(primes, n) + 1
-  # print("loc: {}, len(primes): {}".format(loc, len(primes)))
+
   if loc <= len(primes):
     return primes[:loc]
   else:
     # run sieve 
-    pot_primes_to_test = sorted(primes + list(range(primes[-1] + 2, n + 1, 2)))
+    pot_primes_to_test = primes + list(range(primes[-1] + 2, n + 1, 2))
+
+    print("1")
+    print(pot_primes_to_test)
+
+    print("2")
+    pot_primes_to_test = primes + [x for x in range(primes[-1] + 2, n + 1, 2) if str(x)[-1] != "0" and str(x)[-1] != "5" and not sum([int(y) for y in list(str(x))]) % 3 == 0]
+    print(pot_primes_to_test)
 
     prime_i = 3
 
     i_for_prime_i = -1
 
-    while_guard = 0
     while True:
-      while_guard += 1
-      if while_guard >= 10000:
-        print("WHILE GUARD HIT")
-        break
 
       product = prime_i
       while product <= n:
         product += prime_i
-        # print("product: {}, prime_i: {}".format(product, prime_i))
-        if product % 2 == 0:
+        try:
+          pot_primes_to_test.remove(product)
+        except:
           pass
-        else:
-          try:
-            pot_primes_to_test.remove(product)
-          except:
-            pass
-      
-      # print("len(pot_primes_to_test): {}".format(len(pot_primes_to_test)))
 
       i_for_prime_i += 1
       try:

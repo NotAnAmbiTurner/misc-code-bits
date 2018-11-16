@@ -1,6 +1,57 @@
-def isPrime(n, primes):
-    global_primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]
+def list_primes_less_than_or_equal_to(n, primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]):
+  # implementation of tweaked version of Sieve of Eratosthenes
+  import bisect
+  primes_set = set([2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199])
+  if primes_set.issubset(primes):
+    pass
+  else:
+    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]
+  primes = sorted(primes)
+  loc = bisect.bisect_left(primes, n) + 1
+  # print("loc: {}, len(primes): {}".format(loc, len(primes)))
+  if loc <= len(primes):
+    return primes[:loc]
+  else:
+    # run sieve 
+    pot_primes_to_test = sorted(primes + list(range(primes[-1] + 2, n + 1, 2)))
 
+    prime_i = 3
+
+    i_for_prime_i = -1
+
+    while_guard = 0
+    while True:
+      while_guard += 1
+      if while_guard >= 10000:
+        print("WHILE GUARD HIT")
+        break
+
+      product = prime_i
+      while product <= n:
+        product += prime_i
+        # print("product: {}, prime_i: {}".format(product, prime_i))
+        if product % 2 == 0:
+          pass
+        else:
+          try:
+            pot_primes_to_test.remove(product)
+          except:
+            pass
+      
+      # print("len(pot_primes_to_test): {}".format(len(pot_primes_to_test)))
+
+      i_for_prime_i += 1
+      try:
+        prime_i = pot_primes_to_test[i_for_prime_i]
+      except IndexError:
+        break
+
+  return(pot_primes_to_test)
+  
+def isPrime(n, primes):
+    # DOES NOT WORK / NEEDS REFACTORING
+    global_primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]
+    
     if len(primes) < 46:
         primes = global_primes
     
@@ -15,9 +66,9 @@ def isPrime(n, primes):
         else:
             return True
             
-            
 def find_next_greatest_prime(current_prime = 199, primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]):
   """
+  DOES NOT WORK / NEEDS REFACTORING
   input: prime number
   input: list of continual prime numbers up to the input prime
   output: next greatest prime number

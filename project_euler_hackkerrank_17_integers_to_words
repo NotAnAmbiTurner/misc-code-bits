@@ -1,0 +1,76 @@
+t = int(input().strip())
+
+zero_to_nineteen = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine","Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
+twenty_to_ninety = [None, None, "Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"]
+large_numbers = [None, "Thousand", "Million", "Billion", "Trillion"]
+# large_numbers = ["Trillion", "Billion", "Million", "Thousand", None]
+
+def threes_to_words(n: str) -> str:
+ 
+  len_n = len(n)
+  out_arr = []
+  
+  if len_n == 3:
+    if int(n[0]):
+      out_arr.append(zero_to_nineteen[int(n[0])])
+      out_arr.append("Hundred")
+    n = n[1:3]
+  
+  int_last = int(n)
+  
+  if int_last == 0:
+    # print("broke threes_to_words - out_arr == {}".format(out_arr)) 
+    return out_arr
+  
+  if int_last < 20:
+    out_arr.append(zero_to_nineteen[int_last])
+  elif int_last and int_last >= 20:  
+    out_arr.append(twenty_to_ninety[int(n[0])])
+    if int(n[1]):
+      out_arr.append(zero_to_nineteen[int(n[1])])
+    
+  # print("threes_to_words - out_arr == {}".format(out_arr))
+  return out_arr
+
+def integer_to_words(n: int) -> str:
+  if n == 0:
+    print("Zero")
+    return
+  str_n = str(n)
+  str_n_i = str_n
+  len_n = len(str_n)
+  largest_places = len_n % 3
+  if largest_places:
+    number_in_threes = [str_n[0:largest_places]]
+  else:
+    number_in_threes = []
+  large_places = len_n // 3
+  
+  places_i = largest_places
+  for _ in range(large_places):
+    # print("places_i: {}".format(places_i))
+    number_in_threes.append(str_n[places_i:places_i + 3])
+    places_i += 3
+  
+  # print("largest_places: {}, large_places: {}, str_n: {}".format(largest_places, large_places, str_n))
+  # print(number_in_threes)
+    
+  if largest_places:
+    large_places += 1
+    
+  ret_arr = []
+    
+  for three, place in zip(number_in_threes, range(large_places, 0, -1)):
+    # print("yep")
+    if int(three):
+      arry = threes_to_words(three)
+      if large_numbers[place - 1]:
+        arry.append(large_numbers[place - 1])
+      ret_arr = ret_arr + arry
+  
+  # print(number_in_threes)
+  # print(ret_arr)
+  print(" ".join(ret_arr))
+  
+for test_case in range(t):
+  integer_to_words(int(input().strip()))

@@ -1,3 +1,68 @@
+def increase_iterator(n, base):
+    """
+    find next number with given base, return as base-10 int
+    """
+    str_n = str(n)
+    next_n = ""
+
+    # check last character to see if it can be increased
+    int_last_char = int(str_n[-1])
+    if int_last_char < base - 1:
+      # if it can, return the same string with the last number increased by one
+      return int(str_n[0:-1] + str(int_last_char + 1))
+    
+    # if it can't, loop through the elements of the string from the right, appending "0" until either (1) there is an element that can be increased, or (2) you reach the end
+    rev_str_arr = reversed(str_n)
+    done_flag = False
+    str_next_n = ""
+
+    # if there is an element that can be increased, increase it, and return all zeros for the string to the right
+    for char in rev_str_arr:
+      if done_flag:
+        str_next_n = char + str_next_n
+      elif int(char) < base - 1:
+        str_next_n = str(int(char) + 1) + str_next_n
+        done_flag = True
+      else:
+        str_next_n += "0"
+        
+    # if iterate all the way to the end of the string without finding something to increase, return "1" + "00000000" (number of zeros equal to initial length of the string)
+    if not done_flag:
+      return int("1" + ("0" * len(str_n))) 
+      
+    return int(str_next_n)
+
+def reverse_number(n):
+  """
+  reverse a base-10 integer mathematically
+  """
+  reverse_n = 0
+  
+  while n != 0:
+    remainder = n % 10
+    reverse_n = (reverse_n * 10) + remainder
+    n = n // 10
+  
+  return reverse_n
+
+def is_palindrome(n, base):
+    """
+    determine if a base-10 integer is a palindrome
+    """
+    orig_n = n
+    reverse_n = 0
+  
+    while n != 0:
+      remainder = n % 10
+      reverse_n = (reverse_n * 10) + remainder
+      n = n // 10
+
+    if orig_n == reverse_n:
+      return True
+    else:
+      return False
+
+
 def str_numeral_to_str_written_number(n: str) -> str:
     """
     Input: a string of 1 or 2 spaces representing an integer
